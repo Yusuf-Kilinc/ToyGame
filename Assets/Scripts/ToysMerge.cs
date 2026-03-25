@@ -5,10 +5,9 @@ public class ToysMerge : MonoBehaviour
     public int toyLevel;
     public GameObject nextLevelPrefab;
 
-    [HideInInspector]
-    public bool isMerged = false;
+    private bool isMerged = false;
 
-    void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
         if (isMerged) return;
 
@@ -16,16 +15,15 @@ public class ToysMerge : MonoBehaviour
 
         if (otherToy != null && otherToy.toyLevel == this.toyLevel && !otherToy.isMerged)
         {
+            if (this.nextLevelPrefab == null) return;
+
             if (this.gameObject.GetInstanceID() > otherToy.gameObject.GetInstanceID())
             {
                 this.isMerged = true;
                 otherToy.isMerged = true;
 
-                if (nextLevelPrefab != null)
-                {
-                    Vector3 midPoint = (this.transform.position + otherToy.transform.position) / 2f;
-                    Instantiate(nextLevelPrefab, midPoint, Quaternion.identity);
-                }
+                Vector3 midPoint = (this.transform.position + otherToy.transform.position) / 2f;
+                Instantiate(nextLevelPrefab, midPoint, Quaternion.identity);
 
                 Destroy(this.gameObject);
                 Destroy(otherToy.gameObject);
