@@ -25,6 +25,17 @@ public class ToysMerge : MonoBehaviour
                 Vector3 midPoint = (this.transform.position + otherToy.transform.position) / 2f;
                 Instantiate(nextLevelPrefab, midPoint, Quaternion.identity);
 
+                Spawner2D.SeviyeKontrol(this.toyLevel + 1);
+
+                // --- YENİ EKLENEN SKOR KISMI ---
+                // Seviyesine göre temel puan ver (Örn: 1. seviye 10 puan, 5. seviye 50 puan)
+                int eklenecekPuan = this.toyLevel * 10;
+                if (ScoreManager.instance != null)
+                {
+                    ScoreManager.instance.SkorEkle(eklenecekPuan);
+                }
+                // -------------------------------
+
                 Destroy(this.gameObject);
                 Destroy(otherToy.gameObject);
             }

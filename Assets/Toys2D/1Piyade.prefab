@@ -261,4 +261,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ToysMerge
   toyLevel: 1
   nextLevelPrefab: {fileID: 7350681187308299225, guid: 5a370a66ad9e5aa4287076cc1954c20e, type: 3}
-  isMerged: 0
