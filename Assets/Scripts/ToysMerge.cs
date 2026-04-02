@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ToysMerge : MonoBehaviour
 {
+    [Header("Asker Ayarları")]
     public int toyLevel;
     public GameObject nextLevelPrefab;
 
@@ -17,25 +18,31 @@ public class ToysMerge : MonoBehaviour
         {
             if (this.nextLevelPrefab == null) return;
 
+
             if (this.gameObject.GetInstanceID() > otherToy.gameObject.GetInstanceID())
             {
                 this.isMerged = true;
                 otherToy.isMerged = true;
 
                 Vector3 midPoint = (this.transform.position + otherToy.transform.position) / 2f;
+
                 Instantiate(nextLevelPrefab, midPoint, Quaternion.identity);
 
-                Spawner2D.SeviyeKontrol(this.toyLevel + 1);
 
-                // --- YENİ EKLENEN SKOR KISMI ---
-                // Seviyesine göre temel puan ver (Örn: 1. seviye 10 puan, 5. seviye 50 puan)
                 int eklenecekPuan = this.toyLevel * 10;
                 if (ScoreManager.instance != null)
                 {
                     ScoreManager.instance.SkorEkle(eklenecekPuan);
                 }
-                // -------------------------------
-
+                if (AudioManager.instance != null)
+                {
+                    AudioManager.instance.BirlesmeSesiCal();
+                }
+                int yeniAskerSeviyesi = this.toyLevel + 1;
+                if (Spawner2D.instance != null)
+                {
+                    Spawner2D.instance.EnYuksekSeviyeyiGuncelle(yeniAskerSeviyesi);
+                }
                 Destroy(this.gameObject);
                 Destroy(otherToy.gameObject);
             }
